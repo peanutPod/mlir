@@ -1,46 +1,156 @@
 {
-  "name": "mlir_architecture_deep_dive",
-  "display_name": "MLIR 架构、设计与底层编译全景解析",
-  "description": "以资深编译器工程师视角，对 MLIR 从整体架构、IR 设计理念、Dialect 机制、Pass Infrastructure、Lowering 策略到 LLVM/硬件后端编译流程进行系统性梳理，并输出为结构化 Markdown 文档。",
+  "name": "mlir_based_npu_end_to_end_framework_analysis",
+  "display_name": "基于 MLIR 的端到端 NPU 推理框架全景分析（模块化输出）",
+  "description": "以资深编译器工程师视角，系统性分析 MLIR 从架构、IR 设计、Dialect、Pass、Lowering、底层编译到端到端 NPU 推理框架构建的方法论，并按模块输出高质量 Markdown 技术文档。",
   "version": "1.0.0",
   "language": "zh-CN",
+
   "inputs": {
     "target_audience": {
       "type": "string",
       "default": "senior_compiler_engineer",
-      "description": "目标读者，默认为资深编译器工程师"
+      "description": "目标读者角色，默认资深编译器工程师"
     },
-    "output_format": {
+    "hardware_target": {
       "type": "string",
-      "default": "markdown",
-      "enum": ["markdown"]
+      "default": "NPU",
+      "description": "目标硬件架构，如 NPU / AI Accelerator"
     },
-    "coverage_level": {
+    "output_root": {
       "type": "string",
-      "default": "architecture_to_codegen",
-      "description": "覆盖范围：从架构到后端编译"
+      "default": "mlir_npu_analysis_docs",
+      "description": "Markdown 输出文件的根目录"
     }
   },
+
   "outputs": {
-    "markdown_file": {
-      "type": "string",
-      "description": "系统性 MLIR 技术文档（Markdown）"
+    "markdown_files": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "按模块生成的 Markdown 技术分析文件路径列表"
     }
   },
+
+  "organization": {
+    "output_format": "markdown",
+    "output_strategy": "one_module_one_file",
+    "naming_rule": {
+      "file_name": "<index>_<module_name>.md",
+      "example": "03_mlir_dialect_design.md"
+    }
+  },
+
+  "modules": [
+    {
+      "id": "mlir_overview",
+      "index": "01",
+      "title": "MLIR 的诞生背景与整体架构",
+      "output_file": "01_mlir_architecture_overview.md",
+      "analysis_scope": [
+        "MLIR 解决的问题空间",
+        "与 LLVM IR 的根本差异",
+        "多层 IR 架构设计理念",
+        "为什么 MLIR 是 framework 而非单一 IR"
+      ]
+    },
+    {
+      "id": "ir_design",
+      "index": "02",
+      "title": "MLIR IR 设计哲学与核心抽象",
+      "output_file": "02_mlir_ir_design.md",
+      "analysis_scope": [
+        "Operation / Type / Attribute 设计",
+        "SSA 与渐进语义销毁",
+        "Region / Block 表达结构化控制流",
+        "IR 可扩展性的工程含义"
+      ]
+    },
+    {
+      "id": "dialect_system",
+      "index": "03",
+      "title": "Dialect 机制与领域语义建模",
+      "output_file": "03_mlir_dialect_design.md",
+      "analysis_scope": [
+        "Dialect 的设计目的",
+        "Framework / Linalg / Affine Dialect 角色",
+        "Dialect 如何承载硬件与领域语义",
+        "为什么 Dialect 是 MLIR 的灵魂"
+      ]
+    },
+    {
+      "id": "pass_infrastructure",
+      "index": "04",
+      "title": "Pass 基础设施与变换模型",
+      "output_file": "04_mlir_pass_infrastructure.md",
+      "analysis_scope": [
+        "Operation-level Pass 机制",
+        "Dialect-aware Transformation",
+        "Canonicalization vs Optimization",
+        "与 LLVM Pass 的本质区别"
+      ]
+    },
+    {
+      "id": "lowering_pipeline",
+      "index": "05",
+      "title": "多阶段 Lowering 与 IR 转换流水线",
+      "output_file": "05_mlir_lowering_pipeline.md",
+      "analysis_scope": [
+        "渐进 Lowering 的工程意义",
+        "High-level → Mid-level → Low-level IR",
+        "Lowering 作为架构决策",
+        "错误 Lowering 的常见代价"
+      ]
+    },
+    {
+      "id": "backend_codegen",
+      "index": "06",
+      "title": "从 MLIR 到 LLVM IR 与底层编译后端",
+      "output_file": "06_mlir_to_backend_codegen.md",
+      "analysis_scope": [
+        "LLVM Dialect 的定位",
+        "MLIR 与 LLVM CodeGen 的边界",
+        "后端生成的职责划分",
+        "为什么不要过早降到 LLVM IR"
+      ]
+    },
+    {
+      "id": "npu_dialect",
+      "index": "07",
+      "title": "面向 NPU 的专属 Dialect 设计",
+      "output_file": "07_npu_dialect_design.md",
+      "analysis_scope": [
+        "NPU 计算 / 内存 / 并行语义建模",
+        "NPU Op / Type / Attribute 设计",
+        "硬件约束的显式表达",
+        "NPU Dialect 的工程边界"
+      ]
+    },
+    {
+      "id": "end_to_end_framework",
+      "index": "08",
+      "title": "基于 MLIR 的端到端 NPU 推理框架构建",
+      "output_file": "08_mlir_npu_end_to_end_framework.md",
+      "analysis_scope": [
+        "端到端系统分层架构",
+        "算子映射与融合策略",
+        "Bufferization 与 Memory Planning",
+        "Compiler 与 Runtime 的职责划分",
+        "推理执行链路设计"
+      ]
+    }
+  ],
+
   "behavior": {
-    "style": [
-      "以工程实践与设计动机为核心",
+    "analysis_style": [
+      "资深编译器工程师视角",
+      "以设计动机与工程权衡为主",
       "避免 API 手册式罗列",
-      "强调 MLIR 相比 LLVM IR 的根本区别",
-      "说明“为什么这么设计”，而不仅是“是什么”"
+      "强调为什么这样设计，而不是仅说明如何使用"
     ],
-    "structure": [
-      "架构总览",
-      "IR 设计哲学",
-      "Dialect 与可扩展性",
-      "Pass 与 Transformation 体系",
-      "Lowering 与多阶段编译",
-      "LLVM IR / CodeGen / 硬件后端"
+    "constraints": [
+      "只输出 Markdown 文件，不输出代码实现",
+      "各模块内容相互独立但逻辑前后连贯",
+      "每个模块可单独作为技术分享或文档使用"
     ]
   }
 }
