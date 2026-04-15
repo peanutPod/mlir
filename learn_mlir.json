@@ -1,0 +1,46 @@
+{
+  "name": "mlir_architecture_deep_dive",
+  "display_name": "MLIR 架构、设计与底层编译全景解析",
+  "description": "以资深编译器工程师视角，对 MLIR 从整体架构、IR 设计理念、Dialect 机制、Pass Infrastructure、Lowering 策略到 LLVM/硬件后端编译流程进行系统性梳理，并输出为结构化 Markdown 文档。",
+  "version": "1.0.0",
+  "language": "zh-CN",
+  "inputs": {
+    "target_audience": {
+      "type": "string",
+      "default": "senior_compiler_engineer",
+      "description": "目标读者，默认为资深编译器工程师"
+    },
+    "output_format": {
+      "type": "string",
+      "default": "markdown",
+      "enum": ["markdown"]
+    },
+    "coverage_level": {
+      "type": "string",
+      "default": "architecture_to_codegen",
+      "description": "覆盖范围：从架构到后端编译"
+    }
+  },
+  "outputs": {
+    "markdown_file": {
+      "type": "string",
+      "description": "系统性 MLIR 技术文档（Markdown）"
+    }
+  },
+  "behavior": {
+    "style": [
+      "以工程实践与设计动机为核心",
+      "避免 API 手册式罗列",
+      "强调 MLIR 相比 LLVM IR 的根本区别",
+      "说明“为什么这么设计”，而不仅是“是什么”"
+    ],
+    "structure": [
+      "架构总览",
+      "IR 设计哲学",
+      "Dialect 与可扩展性",
+      "Pass 与 Transformation 体系",
+      "Lowering 与多阶段编译",
+      "LLVM IR / CodeGen / 硬件后端"
+    ]
+  }
+}
